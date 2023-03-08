@@ -5,7 +5,7 @@ namespace ItsMY_M;
 
 public class DatabaseConnectionManager
 {
-    private SqlConnection _connection;
+    private SqlConnection? _connection;
     private readonly string _connectionString;
 
     public DatabaseConnectionManager(string connectionString)
@@ -15,14 +15,26 @@ public class DatabaseConnectionManager
 
     public SqlConnection GetConnection()
     {
-        if (_connection == null)
+        try
         {
+            if (_connection == null)
+            {
+                _connection = new SqlConnection(_connectionString);
+                _connection.Open();
+            }
+            else if (_connection.State == ConnectionState.Closed)
+            {
+                _connection.Open();
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine("Failed to open connection to the database: ");
+
             _connection = new SqlConnection(_connectionString);
             _connection.Open();
-        }
-        else if (_connection.State == ConnectionState.Closed)
-        {
-            _connection.Open();
+            
+            return _connection;
         }
 
         return _connection;
@@ -167,7 +179,7 @@ public class DatabaseConnectionManager
         {
             var chat = new Chat(
                 reader.GetString(0),
-                reader.GetString(1).Equals(username) ? reader.GetString(2) : username,
+                reader.GetString(1).Equals(username) ? reader.GetString(2) : reader.GetString(1),
                 reader.GetString(3),
                 reader.GetInt32(4),
                 this,
@@ -321,4 +333,25 @@ public class DatabaseConnectionManager
 
         return true;
     }
+    
+    public bool AddUser(string username, string password)
+    {
+        var guid = Guid.NewGuid();
+        var query = "INSERT INTO Users (Username, Password, Guid) " +
+                    "VALUES (@Username, @Password, @Guid);";
+        var connection = GetConnection();
+        var command = new SqlCommand(query, connection);
+        command.Parameters.AddWithValue("@Username", username);
+        command.Parameters.AddWithValue("@Password", Utils.StringToSHA256( password));
+        command.Parameters.AddWithValue("@Guid", guid.ToString());
+        var rowsAffected = command.ExecuteNonQuery();
+        if (rowsAffected == 0)
+        {
+            Console.WriteLine("Failed to add user to database");
+            return false;
+        }
+        CloseConnection();
+        return true;
+    }
+
 }
