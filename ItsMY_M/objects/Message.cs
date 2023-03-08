@@ -1,30 +1,26 @@
-using System.Reflection.Metadata.Ecma335;
+namespace ItsMY_M;
 
-namespace ItsMY_M
+public class Message
 {
-    public class Message
+    public string msg;
+    public long Timestamp;
+    public string User;
+
+    public Message(string user, string message, long timestamp)
     {
-        public string User;
-        public long Timestamp;
-        public string msg;
-        public string Msg
+        User = user;
+        Msg = message;
+        Timestamp = timestamp;
+    }
+
+    public string Msg
+    {
+        get
         {
-            get
-            {
-                System.DateTime dat_Time = Constants.epoch;
-                dat_Time = dat_Time.AddSeconds(this.Timestamp);
-                return this.User + " [" + dat_Time.ToString("dd/MM/yyyy H:mm") + "]\n" + this.msg;
-            }
-            set
-            {
-                msg = value;
-            }
+            var dat_Time = Constants.epoch;
+            dat_Time = dat_Time.AddSeconds(Timestamp);
+            return User + " [" + dat_Time.ToString("dd/MM/yyyy H:mm") + "]\n" + msg;
         }
-        public Message(string user, string message, long timestamp)
-        {
-            this.User = user;
-            this.Msg = message;
-            this.Timestamp = timestamp;
-        }
+        set => msg = value;
     }
 }

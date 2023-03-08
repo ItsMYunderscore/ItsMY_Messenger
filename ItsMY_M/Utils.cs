@@ -12,11 +12,11 @@ public class Utils
         return Convert.ToHexString(byteArray);
     }
 
-    public static int GetResponse(string question,int max, bool CanBeZero)
+    public static int GetResponse(string question, int max, bool CanBeZero)
     {
         Console.WriteLine(question + ": ");
-        string? response = Console.ReadLine();
-        
+        var response = Console.ReadLine();
+
         int o;
 
         if (response == null || !int.TryParse(response, out o) || (!CanBeZero && o == 0) || o < 0 || o > max)
@@ -27,12 +27,12 @@ public class Utils
 
         return o;
     }
-    
+
     public static string? GetMessage()
     {
         Console.WriteLine("Message: ");
-        string? response = Console.ReadLine();
-        
+        var response = Console.ReadLine();
+
         if (response == null || !(response.Length > 0))
         {
             Console.WriteLine("illegal argument... Try again...");
@@ -41,12 +41,12 @@ public class Utils
 
         return response;
     }
-    
+
     public static string GetStringArgument(string que)
     {
-        Console.WriteLine(que+": ");
-        string? response = Console.ReadLine();
-        
+        Console.WriteLine(que + ": ");
+        var response = Console.ReadLine();
+
         if (response is not { Length: > 0 } || response.Contains(' '))
         {
             Console.WriteLine("illegal argument... Try again...");
@@ -59,7 +59,11 @@ public class Utils
     public static bool AddMessage(string username, string message, int chatId)
     {
         return Constants.DatabaseConnectionManager.AddMessage(username, message, chatId);
+    }
 
+    public static bool NewChat(string sender, string target, string subject, string message)
+    {
+        return Constants.DatabaseConnectionManager.NewChat(sender, target, subject, message);
     }
 
     public static void Debug(string msg)

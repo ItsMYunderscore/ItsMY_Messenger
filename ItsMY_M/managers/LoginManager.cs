@@ -4,20 +4,14 @@ namespace ItsMY_M;
 
 public class LoginManager
 {
-    private DatabaseConnectionManager _databaseManager;
-    private User? _user;
+    private readonly DatabaseConnectionManager _databaseManager;
 
-    public User? User
+    public LoginManager(DatabaseConnectionManager databaseManager)
     {
-        set
-        {
-            _user = value;
-        }
-        get
-        {
-            return _user;
-        }
+        _databaseManager = databaseManager;
     }
+
+    public User? User { set; get; }
 
     public string? username
     {
@@ -25,50 +19,39 @@ public class LoginManager
         {
             Guid? guid = null;
 
-            if (_user != null)
-            {
-                guid = _user.Guid;
-            }
-            
-            string? name = _databaseManager.GetNameByGuid(guid);
+            if (User != null) guid = User.Guid;
 
-            if (name != null && _user != null)
-            {
-                _user.Username = name;
-            }
+            var name = _databaseManager.GetNameByGuid(guid);
+
+            if (name != null && User != null) User.Username = name;
 
             return name;
-        } 
+        }
     }
 
-    public LoginManager(DatabaseConnectionManager databaseManager)
-    {
-        this._databaseManager = databaseManager;
-    }
-    
     public void ForceLogin(string name)
     {
-        User tmp = _databaseManager.GetUserByUsername(name);
+        var tmp = _databaseManager.GetUserByUsername(name);
 
-        _user = tmp;
+        User = tmp;
     }
 
     public void PreformLogin()
     {
-        int i = 0;
-        
+        var i = 0;
+
         while (i <= 3)
         {
             Console.WriteLine("Username: ");
-            string? response = Console.ReadLine();
+            var response = Console.ReadLine();
 
             if (response == null || response.Contains(' ')) continue;
 
-            User? tmp = _databaseManager.GetUserByUsername(response);
+            var tmp = _databaseManager.GetUserByUsername(response);
 
             if (PreformPasswordCheck(tmp))
             {
-                _user = tmp;
+                User = tmp;
                 return;
             }
 
@@ -78,22 +61,23 @@ public class LoginManager
 
     private bool PreformPasswordCheck(User? user)
     {
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
             Console.WriteLine("Password: ");
-            
-            string? response = Console.ReadLine();
+
+            var response = Console.ReadLine();
             if (response == null) continue;
-            
+
             if (ComparePasswords(response, user))
             {
                 Console.WriteLine("Login successful!\n\n");
                 return true;
             }
+
             Console.WriteLine("Wrong password!\n");
             Thread.Sleep(new Random(700).Next(2000));
         }
-        
+
         return false;
     }
 

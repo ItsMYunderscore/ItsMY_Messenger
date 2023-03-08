@@ -11,21 +11,19 @@ public class RemoveChat : ACommand
 
     public override void Do()
     {
-        List<Chat> chats = db.GetChatsByUser(lm);
+        var chats = db.GetChatsByUser(lm);
 
-        StringBuilder stringBuilder = new StringBuilder("Chats: \n");
-        
+        var stringBuilder = new StringBuilder("Chats: \n");
+
         for (var i = 0; i < chats.Count; i++)
-        {
-            stringBuilder = stringBuilder.Append((i + 1) + " | " + chats[i].Target + " | " + chats[i].Subject + "\n");
-        }
+            stringBuilder = stringBuilder.Append(i + 1 + " | " + chats[i].Target + " | " + chats[i].Subject + "\n");
 
         Console.WriteLine(stringBuilder.ToString());
-        
-        int resp = Utils.GetResponse("Action", chats.Count, true);
+
+        var resp = Utils.GetResponse("Action", chats.Count, true);
 
         if (resp == 0) return;
 
-        db.RemoveChat(lm.username, chats[resp].Guid);
+        db.RemoveChat(lm.username, chats[resp - 1].Guid);
     }
 }

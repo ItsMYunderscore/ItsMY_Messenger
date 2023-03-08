@@ -21,8 +21,9 @@ public class AAccountACommand : ACommand
             Utils.Debug("lm.username == null");
             return;
         }
-        Utils.Debug("lm.username == "+ lm.username);
-        
+
+        Utils.Debug("lm.username == " + lm.username);
+
         Logic();
     }
 }

@@ -1,15 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using ItsMY_M;
-using ItsMY_M.managers;
 
 Console.WriteLine("Hello, World!");
 
-DatabaseConnectionManager db = new DatabaseConnectionManager(Constants.con_str);
+var db = new DatabaseConnectionManager(Constants.con_str);
 
-LoginManager lm = new LoginManager(db);
+var lm = new LoginManager(db);
 //lm.PreformLogin();
-//lm.ForceLogin("root");
+lm.ForceLogin("root");
 
 //Console.WriteLine(Utils.StringToSHA256(""));
 
@@ -22,3 +21,5 @@ LoginManager lm = new LoginManager(db);
 new ProgramManager(db, lm).StartSelection();
 //db.RemoveChat("admin", new Guid());
 //db.AddMessage("admin", "test", 1);
+
+//db.NewChat("root", "johndoe", "test", "test123");

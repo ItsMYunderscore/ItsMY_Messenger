@@ -6,8 +6,8 @@ public class ACommand
 {
     protected readonly AManager _manager;
     protected readonly DatabaseConnectionManager db;
-    protected readonly LoginManager lm;
     public readonly string Description;
+    protected readonly LoginManager lm;
 
     public ACommand(AManager manager, string description)
     {

@@ -11,7 +11,7 @@ public class Logout : AAccountACommand
     public override void Logic()
     {
         lm.User = null;
-        
+
         Console.WriteLine("Logged out...\n");
     }
 }

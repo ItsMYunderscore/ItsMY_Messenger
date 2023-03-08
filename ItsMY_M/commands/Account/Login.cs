@@ -15,22 +15,22 @@ public class Login : ACommand
             Console.WriteLine("You are already logged in...\n");
             return;
         }
-        
+
         PreformLogin();
     }
-    
+
     public void PreformLogin()
     {
-        int i = 0;
-        
+        var i = 0;
+
         while (i <= 3)
         {
             Console.WriteLine("Username: ");
-            string? response = Console.ReadLine();
+            var response = Console.ReadLine();
 
             if (response == null || response.Contains(' ')) continue;
 
-            User? tmp = db.GetUserByUsername(response);
+            var tmp = db.GetUserByUsername(response);
 
             if (PreformPasswordCheck(tmp))
             {
@@ -44,21 +44,22 @@ public class Login : ACommand
 
     private bool PreformPasswordCheck(User? user)
     {
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
             Console.WriteLine("Password: ");
-            
-            string? response = Console.ReadLine();
+
+            var response = Console.ReadLine();
             if (response == null) continue;
-            
+
             if (ComparePasswords(response, user))
             {
                 Console.WriteLine("Login successful!\n\n");
                 return true;
             }
+
             Console.WriteLine("Wrong password!\n");
         }
-        
+
         return false;
     }
 

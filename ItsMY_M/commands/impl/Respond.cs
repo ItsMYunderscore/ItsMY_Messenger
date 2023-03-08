@@ -4,7 +4,7 @@ namespace ItsMY_M.commands;
 
 public class Respond : ACommand
 {
-    private Chat chat;
+    private readonly Chat chat;
 
     public Respond(AManager manager, Chat chat) : base(manager, "Respond")
     {
@@ -14,15 +14,15 @@ public class Respond : ACommand
     public override void Do()
     {
         Console.WriteLine(chat.ListAllMessages);
-        
-        string? o = Utils.GetMessage();
-        
+
+        var o = Utils.GetMessage();
+
         if (o == null)
         {
             Console.WriteLine("Message can't be empty!");
             return;
         }
-        
+
         if (o.Length > 500)
         {
             Console.WriteLine("\nToo long message!\n");
@@ -34,7 +34,7 @@ public class Respond : ACommand
             Console.WriteLine("\nFailed to send message!\n");
             return;
         }
-        
+
         chat.LoadMessages();
     }
 }

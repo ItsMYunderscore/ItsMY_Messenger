@@ -5,7 +5,6 @@ namespace ItsMY_M;
 
 public class AccountManager : AManager
 {
-
     public AccountManager(AManager manager) : base(manager.db, manager.lm)
     {
         AddCommand(new Login(this));
@@ -14,5 +13,4 @@ public class AccountManager : AManager
         AddCommand(new ChangePassword(this));
         AddCommand(new ChangeNickname(this));
     }
-    
 }
