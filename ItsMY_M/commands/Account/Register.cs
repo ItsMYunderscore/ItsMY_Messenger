@@ -20,6 +20,12 @@ public class Register : ACommand
         string newPassword = Utils.GetStringArgument("Password");
         string newPasswordAgain = Utils.GetStringArgument("Password again");
 
+        if (db.UsernameExists(username))
+        {
+            Console.WriteLine("That username is already in use.");
+            return;
+        }
+        
         if (!newPassword.Equals(newPasswordAgain) || !db.AddUser(username, newPasswordAgain))
         {
             Console.WriteLine("Something went wrong... try again");
