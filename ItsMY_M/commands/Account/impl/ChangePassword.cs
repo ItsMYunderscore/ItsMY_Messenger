@@ -1,4 +1,5 @@
 using ItsMY_M.managers;
+using ItsMY_M.Utils;
 
 namespace ItsMY_M.commands;
 
@@ -25,7 +26,7 @@ public class ChangePassword : AAccountACommand
 
     private void ChangePasswd(string password)
     {
-        if (!IsPasswordSafe(password))
+        if (!Utils.IsPasswordSafe(password))
         {
             Console.WriteLine(
                 "Invalid password!\nThe password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.");
@@ -40,27 +41,5 @@ public class ChangePassword : AAccountACommand
 
         db.ChangePassword(lm.username, password);
         Console.WriteLine("Password changed");
-    }
-
-    private bool IsPasswordSafe(string password)
-    {
-        if (string.IsNullOrWhiteSpace(password)) return false;
-
-        if (password.Length < 8) return false;
-
-        var hasUppercase = false;
-        var hasLowercase = false;
-        var hasDigit = false;
-
-        foreach (var c in password)
-            if (char.IsUpper(c))
-                hasUppercase = true;
-            else if (char.IsLower(c))
-                hasLowercase = true;
-            else if (char.IsDigit(c)) hasDigit = true;
-
-        if (!hasUppercase || !hasLowercase || !hasDigit) return false;
-
-        return true;
-    }
+    } 
 }
