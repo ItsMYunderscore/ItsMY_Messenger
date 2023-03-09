@@ -26,6 +26,14 @@ public class Register : ACommand
             return;
         }
         
+        
+        
+        if  (!Utils.IsPasswordSafe(newPassword))
+        {
+            Console.WriteLine("Too weak password");
+            return;
+        }
+        
         if (!newPassword.Equals(newPasswordAgain) || !db.AddUser(username, newPasswordAgain))
         {
             Console.WriteLine("Something went wrong... try again");
