@@ -29,8 +29,6 @@ public class DatabaseConnectionManager
         }
         catch (InvalidOperationException ex)
         {
-            Console.WriteLine("Failed to open connection to the database: ");
-
             _connection = new SqlConnection(_connectionString);
             _connection.Open();
             
