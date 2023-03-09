@@ -30,7 +30,8 @@ public class Register : ACommand
         
         if  (!Utils.IsPasswordSafe(newPassword))
         {
-            Console.WriteLine("Too weak password");
+            Console.WriteLine(
+                "Invalid password!\nThe password should be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.");
             return;
         }
         
