@@ -55,6 +55,28 @@ public class Utils
 
         return response;
     }
+    
+    public static bool IsPasswordSafe(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password)) return false;
+
+        if (password.Length < 8) return false;
+
+        var hasUppercase = false;
+        var hasLowercase = false;
+        var hasDigit = false;
+
+        foreach (var c in password)
+            if (char.IsUpper(c))
+                hasUppercase = true;
+            else if (char.IsLower(c))
+                hasLowercase = true;
+            else if (char.IsDigit(c)) hasDigit = true;
+
+        if (!hasUppercase || !hasLowercase || !hasDigit) return false;
+
+        return true;
+    }
 
     public static bool AddMessage(string username, string message, int chatId)
     {
